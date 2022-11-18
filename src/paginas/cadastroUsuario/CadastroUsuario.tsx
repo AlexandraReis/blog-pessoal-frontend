@@ -1,30 +1,25 @@
-import { Box, Button, Grid, TextField } from '@mui/material';
-import React, { ChangeEvent, useState, useEffect } from 'react';
-import './CadastroUsuario.css';
-import { Typography } from '@material-ui/core';
-import { Link, useNavigate } from 'react-router-dom';
+import React , {useState, useEffect, ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import User from '../../models/User';
 import { cadastroUsuario } from '../../services/Service';
+import { Grid,  Typography, Button, TextField } from '@material-ui/core';
+import {Box} from '@mui/material';
+import { Link } from 'react-router-dom';
+import './CadastroUsuario.css';
+import { toast } from 'react-toastify';
 
 function CadastroUsuario() {
   let navigate = useNavigate();
   const [confirmarSenha, setConfirmarSenha] = useState<string>('');
-
- 
-  function confirmarSenhaHandle(e: ChangeEvent<HTMLInputElement>) {
-    setConfirmarSenha(e.target.value);
-  }
-
-
   const [user, setUser] = useState<User>({
-    id: 0,
-    nome: '',
-    usuario: '',
-    senha: '',
-    foto: '',
-  });
-
-
+ 
+  id: 0,
+  nome: '',
+  usuario: '',
+  senha: '',
+  foto: '',
+});
+ 
   const [userResult, setUserResult] = useState<User>({
     id: 0,
     nome: '',
@@ -32,6 +27,14 @@ function CadastroUsuario() {
     senha: '',
     foto: '',
   });
+  useEffect(() => {
+    if (userResult.id !== 0) {
+      navigate('/login');
+    }
+  }, [userResult]);
+  function confirmarSenhaHandle(e: ChangeEvent<HTMLInputElement>){
+    setConfirmarSenha(e.target.value)
+}
 
   function updateModel(event: ChangeEvent<HTMLInputElement>) {
     setUser({
@@ -62,11 +65,7 @@ function CadastroUsuario() {
   }
 
  
-  useEffect(() => {
-    if (userResult.id !== 0) {
-      navigate('/login');
-    }
-  }, [userResult]);
+ 
     
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center">
@@ -97,6 +96,6 @@ function CadastroUsuario() {
 
     </Grid>
   )
-}
 
-export default CadastroUsuario
+  }
+  export default CadastroUsuario
